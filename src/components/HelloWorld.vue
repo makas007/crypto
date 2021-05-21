@@ -1,12 +1,12 @@
 <template>
   <div class="hello">
     <h1>
-      {{ a }}
+      <!-- {{ price.s }} -->
     </h1>
-    <p>{{ price}}</p>
+    <!-- <p>{{ price }}</p> -->
     <ul>
-      <div v-for="item in price" :key="item">
-        {{ item.s }}
+      <div v-for="item in trackedStreams" :key="item" >
+        {{ item }}
       </div>
     </ul>
   </div>
@@ -18,19 +18,22 @@ export default {
     return {
       ws: null,
       cryptoName: 'btcusdt',
-      price: '',
-      a: '',
+      price: null,
+      fixPrice: null,
       q: null,
+      trackedPrices: null,
+      trackedStreams: {},
       streams: [
         'ethusdt@miniTicker', 'btcusdt@miniTicker', 'maticusdt@miniTicker',
         'adausdt@miniTicker', 'xrpusdt@miniTicker'
       ]
+
     }
   },
   mounted(){
     this.getCryptoData()
-    this.a = parseFloat(this.price.p)
-    // console.log(this.ws)
+    this.a = parseFloat(this.price)
+  
     // console.log(this.q.data, 'EVENT')
     // console.log('asdasda');
   },
@@ -41,27 +44,37 @@ export default {
       // wss://stream.binance.com:9443/ws/stream?streams=btcusdt@miniTicker/ethusdt@miniTicker/
       // this.ws = new WebSocket('wss://stream.binance.com:9443/ws/stream?streams=btcusdt@miniTicker/ethusdt@miniTicker')
       this.ws.onmessage = event => {
-        //  console.log(event.data);
-        this.price = JSON.parse(event.data)
-        this.a = parseFloat(this.price.p).toFixed(2)
-        // console.log(this.q);
+        this.price = JSON.parse(event.data);
+        let tmp = {...this.trackedStreams}
+        // let tmp = Object.assign({},this.trackedStreams);
+        tmp[this.price.s] = this.price.c;
+        this.trackedStreams = tmp;
+        
+        // console.log(this.trackedPrices);
+
+        // console.log(this.trackedStreams);
+        // this.trackedStreams[this.price.c] = this.price.c
+
+        // console.log(this.trackedStreams);
+
+          // for(const [key, value] of Object.entries(this.price)){
+          //   this.handleMessage(this.price[msg])
+          //   this.trackedStreams.push({name: msg.s, price: msg.c})
+          //   console.log(key,value);
+          // }
+
+          // for(const key in this.price){
+          //   //this.trackedStreams.push({name: msg.s, price: msg.c})
+          //   console.log(key);
+          // }
+        //this.fixPrice = parseFloat(this.price.p).toFixed(2)
       }
-      // this.a = this.price.p
     },
-    // getCryptoTable () {
-    //   this.ws = new WebSocket('wss://stream.binance.com:9443/ws/!miniTicker@arr')
-    //   this.ws.onmessage = function(evt) {
-    //     let msgs = JSON.parse(evt.data);
-    //     if (Array.isArray(msgs)) {
-    //       for (let msg of msgs) {
-    //         handleMessage(msg);
-    //       }
-    //     }
-    //   }
-    // },
-    // handleMessage() {
-    //   this.a = 
-    // }
+    handleMessage(msg) {
+      this.trackedStreams.push({name: msg.s, price: msg.c})
+       console.log(this.trackedStreams);
+    }
+
   }
 }
 </script>
