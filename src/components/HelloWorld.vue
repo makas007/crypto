@@ -1,11 +1,11 @@
 <template>
   <div class="hello">
     <h1>
-      <!-- {{ price.s }} -->
+      <!-- {{ trackedStreams }} -->
     </h1>
-    <!-- <p>{{ price }}</p> -->
+    <!-- <p>{{ trackedStreams }}</p> -->
     <ul>
-      <div v-for="item in trackedStreams" :key="item" >
+      <div v-for="item, i  in Object.entries(trackedStreams)" :key="i" >
         {{ item }}
       </div>
     </ul>
@@ -22,7 +22,7 @@ export default {
       fixPrice: null,
       q: null,
       trackedPrices: null,
-      trackedStreams: {},
+      trackedStreams: [],
       streams: [
         'ethusdt@miniTicker', 'btcusdt@miniTicker', 'maticusdt@miniTicker',
         'adausdt@miniTicker', 'xrpusdt@miniTicker'
@@ -34,7 +34,7 @@ export default {
     this.getCryptoData()
     this.a = parseFloat(this.price)
   
-    // console.log(this.q.data, 'EVENT')
+    console.log(this.trackedStreams)
     // console.log('asdasda');
   },
   methods: {
