@@ -1,18 +1,17 @@
-import { Line} from 'vue-chartjs'
+import { Line } from 'vue-chartjs'
 // const { reactiveProp } = mixins
 
 export default {
   extends: Line,
   // mixins: [reactiveProp],
-  // props: ['options'],
+  props: ['chartPrice'],
   data () {
     return {
-      
       chartData: {
-        labels: [65, 59, 80, 81, 56, 55, 40],
+        labels: [12,34,45,67,78],
           datasets: [{
             label: 'My First Dataset',
-            data: [65, 59, 80, 81, 56, 55, 40],
+            // data: this.chartPrice,
             fill: false,
             borderColor: 'rgb(75, 192, 192)',
             tension: 0.1
@@ -21,8 +20,13 @@ export default {
     }
   },
   mounted () {
+    console.log(this.chartPrice + 'ASDASDASD');
     // this.chartData создаётся внутри миксина.
     // Если вы хотите передать опции, создайте локальный объект options
     this.renderChart(this.chartData, this.options)
+  },
+
+  methods: {
+    
   }
 }
