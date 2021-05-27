@@ -14,7 +14,7 @@
         {{ itm  }}
       </div>
     </ul>
-    <line-chart :chart-data="datacollection" :chartPrice="chartPrice"></line-chart>
+    <line-chart :chart-data="datacollection" :chartPrice="chartPrice" v-if="chartPrice.length"></line-chart>
   </div>
 </template>
 
